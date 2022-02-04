@@ -155,3 +155,52 @@ h4 {
     background: rgb(11, 223, 36);
     width: 0%;
 }
+
+#starter {
+    width: 60rem;
+    height: 60rem;
+    background: white;
+    border-radius: 1rem;
+}
+
+.bodytext {
+    font-size: 2.5rem;
+    text-align: justify;
+    margin: 2rem;
+}
+
+.template {
+    width: 60rem;
+    height: 60rem;
+    background: white;
+    border-radius: 1rem;
+}
+
+.question {
+    text-align: center;
+}
+
+.questionbtn {
+    font-size: 2.4rem;
+    padding: 2rem 0;
+    width: 50rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: rgb(28, 26, 26);
+    background: linear-gradient(315deg, #fbb034 0%, #ffdd00 74%);
+    border-radius: 4px;
+}
+
+.questionbtn:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 orangered;
+    transition: transform 150ms;
+    transform: scale(1.03);
+}
+
+.questionbtn[disable]:hover {
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}

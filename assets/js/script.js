@@ -7,14 +7,13 @@ var bodyEL = document.querySelector('.main')
 var questionSection = document.querySelector('#home')
 var clear = document.getElementById('starter');
 var timeLeft = 75;
-var score = 0;
 
 //Questions
 var questions = [
     {
         numb: 1,
         question: "Which of these won't make a function?",
-        answer: "resetTime = () => {}",
+        answer: "None of the above",
         options: [
             "function resetTime() {}",
             "var resetTime = function () {}",
@@ -72,7 +71,7 @@ startButton.addEventListener("click", startGame)
 
 function sendMessage() {
     timerEl.textContent = " ";
-    timerEl.textContent = "Your score is " + (timeLeft + score);
+    timerEl.textContent = "Your score is " + timeLeft;
 }
 
 function setTime() {
@@ -82,7 +81,8 @@ function setTime() {
 
         if (timeLeft == 0 || questions.length === 0) {
             clearInterval(timerInterval);
-            sendMessage();
+            displayScore()
+            // sendMessage();
             return null;
         }
         
@@ -102,26 +102,23 @@ function displayScore() {
     containerEL.innerHTML = '';
     timerEl.textContent = '';
     var scoreContainer = document.createElement('h2');
-    scoreContainer.innerHTML = `Your score is ${timeLeft + score}`;
+    scoreContainer.innerHTML = `Your score is ${timeLeft}`;
     var questionsEL = document.createElement('div');
     questionsEL.className = 'flex-column flex-center template';
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(scoreContainer);
-    // highScore()
+    highScore()
 }
 
 function next() {
     if (questions[0]) {
         displayQuestion();
-    } else {
+    } 
+    else {
         displayScore();
-    }
-}
-
-function wrongOrRight(button) {
-    if (button.id === questions[0].answer) {
+    } if (this.id != this.title) {
         timeLeft -= 10;
-    }
+    } 
 }
 
 function displayQuestion() {
@@ -137,6 +134,7 @@ function displayQuestion() {
     for (i = 0; i < 4; i++) {
         var response = document.createElement('button');
         response.className = 'questionbtn'
+        response.title = questions[0].answer 
         response.textContent = questions[0].options[i];
         response.id = questions[0].options[i];
         response.addEventListener("click", next);

@@ -67,3 +67,24 @@ var questions = [
         ]
     },
 ];
+
+startButton.addEventListener("click", startGame)
+
+function sendMessage() {
+    timerEl.textContent = " ";
+    timerEl.textContent = "Your score is " + (timeLeft + score);
+}
+
+function setTime() {
+    var timerInterval = setInterval(function() {
+        timeLeft--;
+        timerEl.textContent = "Time: " + timeLeft;
+
+        if (timeLeft == 0) {
+            clearInterval(timerInterval);
+            sendMessage();
+            return null;
+        }
+        
+    }, 1000); 
+}

@@ -80,7 +80,7 @@ function setTime() {
         timeLeft--;
         timerEl.textContent = "Time: " + timeLeft;
 
-        if (timeLeft == 0) {
+        if (timeLeft == 0 || questions.length === 0) {
             clearInterval(timerInterval);
             sendMessage();
             return null;
@@ -89,27 +89,49 @@ function setTime() {
     }, 1000); 
 }
 
+function highScore() {
+    var inputScore = document.createElement('input');
+    var box = document.createElement('div');
+    inputScore.placeholder = 'Enter Initials';
+    questionSection.appendChild(box);
+    box.appendChild(inputScore);
+    
+}
+
+function displayScore() {
+    containerEL.innerHTML = '';
+    timerEl.textContent = '';
+    var scoreContainer = document.createElement('h2');
+    scoreContainer.innerHTML = `Your score is ${timeLeft + score}`;
+    var questionsEL = document.createElement('div');
+    questionsEL.className = 'flex-column flex-center template';
+    containerEL.appendChild(questionsEL);
+    questionsEL.appendChild(scoreContainer);
+    // highScore()
+}
 
 function next() {
     if (questions[0]) {
-        displayQuestion()
+        displayQuestion();
     } else {
-        displayScore()
+        displayScore();
     }
 }
 
-// function wrongOrRight() {
-//     if ()
-// }
+function wrongOrRight(button) {
+    if (button.id === questions[0].answer) {
+        timeLeft -= 10;
+    }
+}
 
 function displayQuestion() {
-    questionSection.innerHTML = "";
+    // questionSection.innerHTML = "";
     containerEL.innerHTML = "";
     var questionsEL = document.createElement('div');
     questionsEL.className = 'flex-column flex-center template';
     var question = document.createElement('h2');
     question.textContent = questions[0].question;
-    question.className = 'question'
+    question.className = 'question';
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(question);
     for (i = 0; i < 4; i++) {
@@ -120,8 +142,6 @@ function displayQuestion() {
         response.addEventListener("click", next);
         questionsEL.appendChild(response);
     }
-    
-    console.log(score)
     // Implement 
     questions.shift()
 }

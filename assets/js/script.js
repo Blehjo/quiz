@@ -8,6 +8,19 @@ var questionSection = document.querySelector('#home')
 var clear = document.getElementById('starter');
 var timeLeft = 75;
 var myStorage = window.localStorage;
+var scoresObject = {}
+console.log(localStorage);
+
+highButton.addEventListener(
+    'click', highScoresScreen = () => {
+        containerEL.innerHTML = "";
+        var questionsEL = document.createElement('div');
+        questionsEL.className = 'flex-column flex-center template';
+        containerEL.appendChild(questionsEL);
+        var scores = JSON.parse(myStorage.getItem('') || '[]');
+        scores.push();
+        console.log(scores);
+    })
 
 //Questions
 var questions = [
@@ -89,17 +102,6 @@ function setTime() {
     }, 1000); 
 }
 
-function highScore() {
-    var inputScore = document.createElement('input');
-    var box = document.createElement('div');
-    
-    inputScore.placeholder = 'Enter Initials';
-    
-    questionSection.appendChild(box);
-    box.appendChild(inputScore);
-    
-}
-
 function displayScore() {
     containerEL.innerHTML = '';
     timerEl.textContent = '';
@@ -118,7 +120,7 @@ function displayScore() {
     form.className = 'enter_btn';
     button.className = 'button_btn';
     button.innerHTML = 'ENTER'
-    inputScore.maxLength = '2';
+    inputScore.maxLength = '3';
     
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(scoreContainer);
@@ -129,15 +131,26 @@ function displayScore() {
     
     button.addEventListener('click', function (e) {
         e.preventDefault();
-        if (inputScore.value.length > 1)
-        console.log(inputScore.value);
+
+        scoresObject[`${inputScore.value}`] = timeLeft
+
+        if (inputScore.value.length > 1) {
+        myStorage.setItem(inputScore.value, JSON.stringify());
+        questionsEL.innerHTML = '';
+        window.location.reload()
+        }
     })
 }
 
-function getScore() {
-    if (this.textContent) {
-        console.log('hello')
-    }
+function viewScores() {
+    var scores = JSON.parse(myStorage.getItem('') || '[]');
+    scores.push()
+    console.log(scores)
+    // for (i = 0; i < myStorage.length - 1; i++) {
+    //     console.log(
+    //         myStorage
+    //     )
+    // }
 }
 
 function next() {
@@ -161,7 +174,7 @@ function displayQuestion() {
     questionsEL.className = 'flex-column flex-center template';
     question.textContent = questions[0].question;
     question.className = 'question';
-    
+
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(question);
     

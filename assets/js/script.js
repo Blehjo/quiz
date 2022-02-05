@@ -7,6 +7,7 @@ var bodyEL = document.querySelector('.main')
 var questionSection = document.querySelector('#home')
 var clear = document.getElementById('starter');
 var timeLeft = 75;
+var myStorage = window.localStorage;
 
 //Questions
 var questions = [
@@ -82,7 +83,6 @@ function setTime() {
         if (timeLeft == 0 || questions.length === 0) {
             clearInterval(timerInterval);
             displayScore()
-            // sendMessage();
             return null;
         }
         
@@ -92,7 +92,9 @@ function setTime() {
 function highScore() {
     var inputScore = document.createElement('input');
     var box = document.createElement('div');
+    
     inputScore.placeholder = 'Enter Initials';
+    
     questionSection.appendChild(box);
     box.appendChild(inputScore);
     
@@ -101,52 +103,85 @@ function highScore() {
 function displayScore() {
     containerEL.innerHTML = '';
     timerEl.textContent = '';
+    
     var scoreContainer = document.createElement('h2');
-    scoreContainer.innerHTML = `Your score is ${timeLeft}`;
     var questionsEL = document.createElement('div');
+    var inputScore = document.createElement('input');
+    var box = document.createElement('div');
+    var form = document.createElement('form');
+    var button = document.createElement('button');
+    
+    scoreContainer.innerHTML = `Your score is ${timeLeft}`;
+    inputScore.placeholder = 'Enter Initials';
     questionsEL.className = 'flex-column flex-center template';
+    inputScore.className = 'input_style'
+    form.className = 'enter_btn';
+    button.className = 'button_btn';
+    button.innerHTML = 'ENTER'
+    inputScore.maxLength = '2';
+    
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(scoreContainer);
-    highScore()
+    questionsEL.appendChild(box);
+    box.appendChild(form);
+    form.appendChild(inputScore);
+    form.appendChild(button);
+    
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (inputScore.value.length > 1)
+        console.log(inputScore.value);
+    })
+}
+
+function getScore() {
+    if (this.textContent) {
+        console.log('hello')
+    }
 }
 
 function next() {
     if (questions[0]) {
         displayQuestion();
-    } 
-    else {
+    } else {
         displayScore();
-    } if (this.id != this.title) {
+    } 
+    
+    if (this.id != this.title) {
         timeLeft -= 10;
     } 
 }
 
 function displayQuestion() {
-    // questionSection.innerHTML = "";
     containerEL.innerHTML = "";
+    
     var questionsEL = document.createElement('div');
-    questionsEL.className = 'flex-column flex-center template';
     var question = document.createElement('h2');
+    
+    questionsEL.className = 'flex-column flex-center template';
     question.textContent = questions[0].question;
     question.className = 'question';
+    
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(question);
+    
     for (i = 0; i < 4; i++) {
         var response = document.createElement('button');
+        
         response.className = 'questionbtn'
         response.title = questions[0].answer 
         response.textContent = questions[0].options[i];
+        
+        questionsEL.appendChild(response);
+        
         response.id = questions[0].options[i];
         response.addEventListener("click", next);
-        questionsEL.appendChild(response);
     }
-    // Implement 
     questions.shift()
 }
 
 function squizGame() {
     setTime();
-    //  Display question function
     displayQuestion();
 }
 
@@ -154,25 +189,30 @@ function squizGame() {
 
 function startGame() {
     questionSection.innerHTML = '';
+    
     var questionsEL = document.createElement('div');
-    questionsEL.className = 'flex-column flex-center';
-    questionsEL.id = 'starter';
     var header = document.createElement('h2');
-    header.textContent = 'Some Rules of this Quiz';
     var body = document.createElement('h3');
-    body.className = 'bodytext';
-    body.innerHTML = "1. You will have only 15 seconds per each question. \n 2. Once you select your answer, it can't be undone \n 3. You can't select any option once time goes off \n 4. You can't exit from the Quiz while you're playing \n 5. You'll get points on the basis of your correct answers";
-    containerEL.appendChild(questionsEL);
-    questionsEL.appendChild(header);
-    questionsEL.appendChild(body);
     var start = document.createElement('button');
     var quit = document.createElement('button');
+    
+    questionsEL.className = 'flex-column flex-center';
+    questionsEL.id = 'starter';
+    body.className = 'bodytext';
+    header.textContent = 'Some Rules of this Quiz';
+    body.innerHTML = "1. Once you select your answer, it can't be undone \n2. You can't select any option once time goes off \n3. You can't exit from the Quiz while you're playing \n4. You'll lose points on the basis of your wrong answers";
+    
     start.textContent = 'Start';
     quit.innerHTML = 'Quit';
     start.className = 'btn';
     quit.className = 'btn';
+    
+    containerEL.appendChild(questionsEL);
+    questionsEL.appendChild(header);
+    questionsEL.appendChild(body);
     questionsEL.appendChild(start);
     questionsEL.appendChild(quit);
+    
     start.addEventListener('click', squizGame);
     quit.addEventListener('click', function() {
         window.location.reload();

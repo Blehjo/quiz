@@ -205,6 +205,45 @@ h4 {
     transform: none;
 }
 
+.enter_btn {
+    font-size: 1rem;
+    padding: 2.5rem 0;
+    width: 15rem;
+    height: auto;
+    text-align: center;
+    margin: 1rem;
+    text-decoration: none;
+    color: rgb(28, 26, 26);
+    background: linear-gradient(315deg, #fbb034 0%, #ffdd00 74%);
+    border-radius: 4px;
+}
+
+.button_btn {
+    font-size: 1rem;
+    padding: 1rem 0;
+    width: 10rem;
+    text-align: center;
+    margin: 1rem;
+    text-decoration: none;
+    color: rgb(28, 26, 26);
+    background: linear-gradient(315deg, #fbb034 0%, #ffdd00 74%);
+    border-radius: 4px;
+}
+
+.button_btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 orangered;
+    transition: transform 150ms;
+    transform: scale(1.03);
+}
+
+.input_style {
+    height: 3.5rem;
+    width: 10rem;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
 @media screen and (max-width: 768px) {
     .choice-container {
         min-width: 40rem;

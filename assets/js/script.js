@@ -10,7 +10,7 @@ var timeLeft = 75;
 var myStorage = window.localStorage;
 let scores = (JSON.parse(myStorage.getItem('highscores')));
 
-
+// Get's highscores
 highScoreButton.addEventListener(
     'click', highScoresScreen = () => {
         containerEL.innerHTML = "";
@@ -102,15 +102,29 @@ var questions = [
             "HTML"
         ]
     },
+    {
+        numb: 5,
+        question: "Which of these languages is considered the skeleton of a webpage",
+        answer: "HTML",
+        options: [
+            "CSS",
+            "Javascript",
+            "English",
+            "HTML"
+        ]
+    }
 ];
 
+// Initiates squiz game
 startButton.addEventListener("click", startGame)
 
+// Clears time and shows player his/ her/ their score
 function sendMessage() {
     timerEl.textContent = " ";
     timerEl.textContent = "Your score is " + timeLeft;
 }
 
+// Initiates time.  If time equals 0 then game is over
 function setTime() {
     var timerInterval = setInterval(function() {
         timeLeft--;
@@ -125,6 +139,7 @@ function setTime() {
     }, 1000); 
 }
 
+// Function that displays the score and gives the option to input initials in order to save it to high score
 function displayScore() {
     containerEL.innerHTML = '';
     timerEl.textContent = '';
@@ -167,6 +182,7 @@ function displayScore() {
     })
 }
 
+// Displays next question and subtracts time if the question is wrong
 function next() {
     if (questions[0]) {
         displayQuestion();
@@ -177,6 +193,7 @@ function next() {
     } 
 }
 
+// Creates html that shows the question and its options
 function displayQuestion() {
     containerEL.innerHTML = "";
     
@@ -204,21 +221,22 @@ function displayQuestion() {
         response.id = questions[0].options[i];
         response.addEventListener("click", function() {
             next()
-            // if (questions.length === 0 && 'click') {
-            //     displayScore();
-            // }
+            if (questions.length === 0 && 'click') {
+                displayScore();
+            }
         });
     }
     questions.shift()
 }
 
+// Let the games begin
 function squizGame() {
     setTime();
     displayQuestion();
 }
 
 
-
+// Function that shows rules of the game and the option to start or quit and go back to the home page
 function startGame() {
     questionSection.innerHTML = '';
     

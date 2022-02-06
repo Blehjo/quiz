@@ -117,19 +117,13 @@ var questions = [
 // Initiates squiz game
 startButton.addEventListener("click", startGame)
 
-// Clears time and shows player his/ her/ their score
-function sendMessage() {
-    timerEl.textContent = " ";
-    timerEl.textContent = "Your score is " + timeLeft;
-}
-
 // Initiates time.  If time equals 0 then game is over
 function setTime() {
     var timerInterval = setInterval(function() {
         timeLeft--;
         timerEl.textContent = "Time: " + timeLeft;
 
-        if (timeLeft == 0) {
+        if (timeLeft == 0 || questions.length === 0) {
             clearInterval(timerInterval);
             displayScore()
             return null;
@@ -181,22 +175,17 @@ function displayScore() {
     })
 }
 
-function wrongOrRight() {
-    if (this.id != this.title) {
-        timeLeft -= 10;
-    } 
+function endResults() {
+    if (questions.length === 0 && 'click') {
+        displayScore();
+    }
 }
 
 // Displays next question and subtracts time if the question is wrong
 function next() {
-    // wrongOrRight()
     if (questions[0]) {
         displayQuestion();
     } 
-    // if (this.id != this.title) {
-    //     timeLeft -= 10;
-    // } 
-   
 }
 
 // Creates html that shows the question and its options
@@ -227,11 +216,10 @@ function displayQuestion() {
         response.id = questions[0].options[i];
         response.addEventListener("click", function() {
             next()
-            // wrongOrRight()
-            if (questions.length === 0 && 'click') {
-                displayScore();
-                wrongOrRight()
-            }
+            endResults();
+            if (this.id != this.title) {
+                timeLeft -= 10;
+            } 
         });
     }
     questions.shift()

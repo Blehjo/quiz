@@ -7,8 +7,7 @@ var bodyEL = document.querySelector('.main');
 var questionSection = document.querySelector('#home');
 var clear = document.getElementById('starter');
 var timeLeft = 75;
-var myStorage = window.localStorage;
-let scores = (JSON.parse(myStorage.getItem('highscores')));
+let scores = (JSON.parse(localStorage.getItem('highscores')));
 
 // Get's highscores
 highScoreButton.addEventListener(
@@ -41,7 +40,7 @@ highScoreButton.addEventListener(
         });
 
         goBackButton.addEventListener('click', function() {
-            window.location.reload()
+            location.reload()
         })
     })
 
@@ -177,7 +176,7 @@ function displayScore() {
 
         if (inputScore.value.length > 1) {
         myStorage.setItem("highscores", JSON.stringify(scores));
-        window.location.reload();
+        location.reload();
         } 
     })
 }

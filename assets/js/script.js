@@ -265,6 +265,6 @@ function startGame() {
     
     start.addEventListener('click', squizGame);
     quit.addEventListener('click', function() {
-        window.location.reload();
+        location.reload();
     })
 };

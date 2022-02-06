@@ -14,7 +14,7 @@ highScoreButton.addEventListener(
     'click', highScoresScreen = () => {
         containerEL.innerHTML = "";
 
-        var scores = JSON.parse(myStorage.getItem('highscores'));
+        var scores = JSON.parse(localStorage.getItem('highscores'));
         var questionsEL = document.createElement('div');
         var scoreBoxEL = document.createElement('div');
         var headerScores = document.createElement('h2');

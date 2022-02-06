@@ -7,14 +7,14 @@ var bodyEL = document.querySelector('.main');
 var questionSection = document.querySelector('#home');
 var clear = document.getElementById('starter');
 var timeLeft = 75;
-let scores = (JSON.parse(localStorage.getItem('highscores')));
+let scores = (JSON.parse(localStorage.getItem('highscores')) || []);
 
 // Get's highscores
 highScoreButton.addEventListener(
     'click', highScoresScreen = () => {
         containerEL.innerHTML = "";
 
-        var scores = JSON.parse(localStorage.getItem('highscores'));
+        // var scores = JSON.parse(localStorage.getItem('highscores'));
         var questionsEL = document.createElement('div');
         var scoreBoxEL = document.createElement('div');
         var headerScores = document.createElement('h2');
@@ -175,21 +175,28 @@ function displayScore() {
         Array.from(scores.push( record ))
 
         if (inputScore.value.length > 1) {
-        myStorage.setItem("highscores", JSON.stringify(scores));
+        localStorage.setItem("highscores", JSON.stringify(scores));
         location.reload();
         } 
     })
 }
 
-// Displays next question and subtracts time if the question is wrong
-function next() {
-    if (questions[0]) {
-        displayQuestion();
-    } 
-    
+function wrongOrRight() {
     if (this.id != this.title) {
         timeLeft -= 10;
     } 
+}
+
+// Displays next question and subtracts time if the question is wrong
+function next() {
+    // wrongOrRight()
+    if (questions[0]) {
+        displayQuestion();
+    } 
+    // if (this.id != this.title) {
+    //     timeLeft -= 10;
+    // } 
+   
 }
 
 // Creates html that shows the question and its options
@@ -220,8 +227,10 @@ function displayQuestion() {
         response.id = questions[0].options[i];
         response.addEventListener("click", function() {
             next()
+            // wrongOrRight()
             if (questions.length === 0 && 'click') {
                 displayScore();
+                wrongOrRight()
             }
         });
     }

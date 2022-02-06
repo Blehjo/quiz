@@ -1,25 +1,48 @@
 var startButton = document.querySelector("#startbtn");
 var resetButton = document.querySelector("#resetbtn");
-var highButton = document.querySelector(".highscores")
+var highScoreButton = document.querySelector(".highscores");
 var timerEl = document.querySelector(".time");
-var containerEL = document.querySelector('.container')
-var bodyEL = document.querySelector('.main')
-var questionSection = document.querySelector('#home')
+var containerEL = document.querySelector('.container');
+var bodyEL = document.querySelector('.main');
+var questionSection = document.querySelector('#home');
 var clear = document.getElementById('starter');
 var timeLeft = 75;
 var myStorage = window.localStorage;
-var scoresObject = {}
-console.log(localStorage);
+let scores = (JSON.parse(myStorage.getItem('highscores')));
 
-highButton.addEventListener(
+
+highScoreButton.addEventListener(
     'click', highScoresScreen = () => {
         containerEL.innerHTML = "";
+
+        var scores = JSON.parse(myStorage.getItem('highscores'));
         var questionsEL = document.createElement('div');
+        var scoreBoxEL = document.createElement('div');
+        var headerScores = document.createElement('h2');
+        var goBackButton = document.createElement('button');
+        
+        headerScores.textContent = "High Scores";
+        goBackButton.textContent = 'Go Back'
+        goBackButton.className = 'btn'
         questionsEL.className = 'flex-column flex-center template';
+        scoreBoxEL.className = 'scorebox';
+        
         containerEL.appendChild(questionsEL);
-        var scores = JSON.parse(myStorage.getItem('') || '[]');
-        scores.push();
-        console.log(scores);
+        questionsEL.appendChild(scoreBoxEL);
+        questionsEL.appendChild(goBackButton);
+        scoreBoxEL.appendChild(headerScores);
+
+        
+        scores.forEach(score => {
+            var p = document.createElement('h2');
+            p.className = 'scorey';
+            p.textContent = score;
+            scoreBoxEL.appendChild(p);
+        });
+
+        goBackButton.addEventListener('click', function() {
+            window.location.reload()
+        })
     })
 
 //Questions
@@ -93,7 +116,7 @@ function setTime() {
         timeLeft--;
         timerEl.textContent = "Time: " + timeLeft;
 
-        if (timeLeft == 0 || questions.length === 0) {
+        if (timeLeft == 0) {
             clearInterval(timerInterval);
             displayScore()
             return null;
@@ -121,6 +144,7 @@ function displayScore() {
     button.className = 'button_btn';
     button.innerHTML = 'ENTER'
     inputScore.maxLength = '3';
+    var trees = inputScore.value;
     
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(scoreContainer);
@@ -132,32 +156,20 @@ function displayScore() {
     button.addEventListener('click', function (e) {
         e.preventDefault();
 
-        scoresObject[`${inputScore.value}`] = timeLeft
+        var record = `${inputScore.value} - ${timeLeft}`;
+        
+        Array.from(scores.push( record ))
 
         if (inputScore.value.length > 1) {
-        myStorage.setItem(inputScore.value, JSON.stringify());
-        questionsEL.innerHTML = '';
-        window.location.reload()
-        }
+        myStorage.setItem("highscores", JSON.stringify(scores));
+        window.location.reload();
+        } 
     })
-}
-
-function viewScores() {
-    var scores = JSON.parse(myStorage.getItem('') || '[]');
-    scores.push()
-    console.log(scores)
-    // for (i = 0; i < myStorage.length - 1; i++) {
-    //     console.log(
-    //         myStorage
-    //     )
-    // }
 }
 
 function next() {
     if (questions[0]) {
         displayQuestion();
-    } else {
-        displayScore();
     } 
     
     if (this.id != this.title) {
@@ -174,7 +186,9 @@ function displayQuestion() {
     questionsEL.className = 'flex-column flex-center template';
     question.textContent = questions[0].question;
     question.className = 'question';
+    timerEl.className = 'timerEl'
 
+    questionsEL.appendChild(timerEl);
     containerEL.appendChild(questionsEL);
     questionsEL.appendChild(question);
     
@@ -188,7 +202,12 @@ function displayQuestion() {
         questionsEL.appendChild(response);
         
         response.id = questions[0].options[i];
-        response.addEventListener("click", next);
+        response.addEventListener("click", function() {
+            next()
+            // if (questions.length === 0 && 'click') {
+            //     displayScore();
+            // }
+        });
     }
     questions.shift()
 }

@@ -244,6 +244,23 @@ h4 {
     font-size: 1.3rem;
 }
 
+.scorebox {
+    background: orange;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.scorey {
+    /* background: orangered; */
+    color: white;
+    text-align: center;
+}
+
+.timerEl {
+    padding: 3rem;
+}
+
 @media screen and (max-width: 768px) {
     .choice-container {
         min-width: 40rem;
